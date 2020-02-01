@@ -1,0 +1,30 @@
+fields:
+    settings_section:
+        label: Features activation
+        type: section
+        commentAbove: 'Choose which social features to enable.'
+    authentification:
+        label: 'Use social providers for authentification'
+        span: left
+        commentAbove: 'Allow users to register and log in using social accounts.'
+        type: switch
+    autolink:
+        label: 'Auto-link new social accounts on log in attempt'
+        span: right
+        commentAbove: 'Allow existing users to log in with a provider they never used before if the e-mail given by the social provider match an user in the database.'
+        type: switch
+    always_show_registration:
+        label: 'Always show a ''Continue registration'' form after register with social'
+        span: left
+        commentAbove: 'Always show a pre-filled ''Continue registration'' form after a new user registers with a social account, even if every required field has been given by the social provider.'
+        type: switch
+    providers_section:
+        label: Providers
+        type: section
+        comment: 'Select social providers to enable. Providers must be configured before they can be enabled.'
+    providers:
+        name: providers
+        span: full
+        label: ''
+        type: Tlokuus\LoginWithSocial\FormWidgets\ToggleList
+        commentAbove: ''

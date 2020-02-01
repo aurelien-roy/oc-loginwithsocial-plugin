@@ -1,0 +1,33 @@
+<form data-request="onFinishRegister">
+
+    <h2>Finish registration with {{ providerName }}</h2>
+
+    {% if loginAttribute == "username" or true %}
+        <div class="form-group">
+            <label for="registerUsername">{{ 'account.username'|_ }}</label>
+            <input
+                name="username"
+                type="text"
+                class="form-control"
+                id="registerUsername"
+                value="{{ initiatedProfile.name }}"
+                placeholder="{{ 'account.username.placeholder'|_ }}" required />
+        </div>
+    {% endif %}
+
+    <div class="form-group">
+        <label for="registerEmail">{{ 'account.email'|_ }}</label>
+        <input
+            name="email"
+            type="email"
+            class="form-control"
+            id="registerEmail"
+            value="{{ initiatedProfile.email }}"
+            placeholder="{{ 'account.email.placeholder'|_ }}" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+
+    {{ form_close() }}
+
+</form>

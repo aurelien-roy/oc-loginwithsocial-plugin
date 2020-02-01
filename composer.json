@@ -1,0 +1,33 @@
+{
+    "name": "tlokuus/oc-loginwithsocial-plugin",
+    "type": "october-plugin",
+    "description": "October CMS plugin for social login integration",
+    "keywords": [
+        "october",
+        "cms",
+        "social",
+        "login",
+        "auth",
+        "facebook",
+        "google",
+        "microsoft",
+        "discord",
+        "twitter"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aurelien Roy",
+            "email": "aurelien_roy@outlook.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.1",
+        "composer/installers": "~1.0",
+        "rainlab/user-plugin": "dev-master",
+        "tlokuus/oc-disablepassword-plugin": "dev-master"
+    },
+    "extra": {
+        "installer-name": "loginwithsocial"
+    }
+}

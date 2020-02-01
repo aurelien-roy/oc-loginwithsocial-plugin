@@ -1,0 +1,14 @@
+{% for key, provider in socialButtons %}
+    <tr>
+        <th scope="row"><i class="fa-fw {% if provider.fab %}fab fa-{{ provider.fab }}{% else %}fas fa-user-circle{% endif %} mr-3"></i> {{ provider.name }}</th>
+        {% set linked_account = currentUser.linked_social_accounts.where('provider', key).first %}
+
+        {% if linked_account %}
+            <td>{{ linked_account.profile_data.displayName }}</td>
+            <td class="text-right"><a href="#" data-request="onUnlink" data-request-data="provider: '{{ key }}'" data-request-update="{'{{ __SELF__ }}::linked_accounts_table': '.linkedAccounts'}">{{ 'tlokuus.loginwithsocial::frontend.unlink_account'|trans }}</a></td class="text-right">
+        {% else %}
+            <td><i>{{ 'tlokuus.loginwithsocial::frontend.not_linked'|trans }}</i></td>
+            <td class="text-right"><a href="#" data-request="onLink" data-request-data="provider: '{{ key }}'">{{ 'tlokuus.loginwithsocial::frontend.link_account'|trans }}</a></td>
+        {% endif %}
+    </tr>
+{% endfor %}

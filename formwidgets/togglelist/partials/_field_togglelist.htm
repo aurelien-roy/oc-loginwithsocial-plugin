@@ -1,0 +1,24 @@
+<div class="layout-cell">
+<?php foreach($this->toggles() as $i => $toggle): ?>
+<?php $field = $toggle['field']; ?>
+<div class="panel form-group switch-field span-<?= $i%2 ? 'right' : 'left'; ?>" style="border: #eee 2px solid; border-radius:5px; margin-bottom:10px; background:white; padding: 12px 10px;">
+    <div class="field-switch">
+        <label for=""><?= $field->label ?></label>
+        <p class="help-block"><?= $field->comment ?> <?php if ($field->attributes['tooltip']): ?><i class="icon-question-circle" data-toggle='tooltip' title="<?= $field->attributes['tooltip'] ?>"></i><?php endif; ?></p>
+        
+    </div>
+    <label class="custom-switch" style="margin-bottom:0;">
+        <input
+            type="checkbox"
+            id="<?= $field->getId() ?>"
+            name="<?= $name . '[' . $field->label . ']' ?>"
+            value="1"
+            <?= $field->value == 1 ? 'checked="checked"' : '' ?>
+            <?= $field->getAttributes() ?>>
+        <span><span><?= e(trans('backend::lang.form.field_on')) ?></span><span><?= e(trans('backend::lang.form.field_off')) ?></span></span>
+        <a class="slide-button"></a>
+    </label>
+
+</div>
+<?php endforeach; ?>
+</div>
