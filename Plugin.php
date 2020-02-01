@@ -4,14 +4,9 @@ namespace Tlokuus\LoginWithSocial;
 use System\Classes\PluginBase;
 use Rainlab\User\Models\User;
 use System\Classes\SettingsManager;
-use Backend;
 
 class Plugin extends PluginBase
 {
-
-    private $providers;
-    private $enabledProviders = ['Discord'];
-    private $loginUrl = 'register';
 
     public $require = ['RainLab.User', 'Tlokuus.DisablePassword'];
 

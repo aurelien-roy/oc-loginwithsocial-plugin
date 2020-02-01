@@ -1,8 +1,8 @@
 <form data-request="onFinishRegister">
 
-    <h2>Finish registration with {{ providerName }}</h2>
+    <h2>{{ 'tlokuus.loginwithsocial::frontend.continue_registration_with'|trans({provider: providerName}) }}</h2>
 
-    {% if loginAttribute == "username" or true %}
+    {% if loginAttribute == "username" %}
         <div class="form-group">
             <label for="registerUsername">{{ 'account.username'|_ }}</label>
             <input

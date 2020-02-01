@@ -50,7 +50,7 @@ class SocialAuthManager {
             throw new ApplicationException(Lang::get('rainlab.user::lang.account.registration_disabled'));
         }
 
-        if (!$account_comp->public_isRegisterThrottled()) {
+        if ($account_comp->public_isRegisterThrottled()) {
             throw new ApplicationException(Lang::get('rainlab.user::lang.account.registration_throttled'));
         }
 

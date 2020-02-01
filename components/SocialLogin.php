@@ -65,10 +65,15 @@ class SocialLogin extends ComponentBase
     public function onRun()
     {
         if(($action = Input::get('social_action')) && ($provider_name = Input::get('provider'))){
-            if($action == 'login') {
-                return $this->loginWith($provider_name, true);
-            } elseif($action == 'link') {
-                return $this->link($provider_name, true);
+            try {
+                if($action == 'login') {
+                    return $this->loginWith($provider_name, true);
+                } elseif($action == 'link') {
+                    return $this->link($provider_name, true);
+                }
+            } catch (ApplicationException $ex) {
+                Flash::error($ex->getMessage());
+                return $this->redirectFailure();
             }
         }
     }
@@ -268,7 +273,8 @@ class SocialLogin extends ComponentBase
             [
                 'provider' => $provider_name,
                 'identifier' => $social_profile->identifier,
-                'profile' => $data,
+                'profile' => $social_profile,
+                'reg_data' => $data,
                 'verified' => $data['email'] == $social_profile->emailVerified,
                 'expires' => Carbon::now()->addMinutes(30)
             ]

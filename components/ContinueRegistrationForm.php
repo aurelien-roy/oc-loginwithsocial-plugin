@@ -58,7 +58,7 @@ class ContinueRegistrationForm extends ComponentBase
         }
 
         $this->page['hasInitiatedRegistration'] = true;
-        $this->page['initiatedProfile'] = $partial_reg['profile'];
+        $this->page['initiatedProfile'] = $partial_reg['reg_data'];
         $this->page['providerName'] = $partial_reg['provider'];
     }
 
@@ -86,13 +86,13 @@ class ContinueRegistrationForm extends ComponentBase
         }
 
         $formdata = Input::post();
-        $emailChanged = (!array_key_exists('email', $formdata) || $formdata['email'] != $partialReg['profile']['email']);
+        $emailChanged = (!array_key_exists('email', $formdata) || $formdata['email'] != $partialReg['reg_data']['email']);
 
         SocialAuthManager::instance()->registerUser(
             $formdata,
             !$emailChanged && $partialReg['verified'],
             $partialReg['provider'],
-            $partialReg['identifier']
+            $partialReg['profile']
         );
 
         $this->forgetPartialRegistrationData();
