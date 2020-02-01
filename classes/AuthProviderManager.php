@@ -10,7 +10,7 @@ class AuthProviderManager
     use \October\Rain\Support\Traits\Singleton;
 
     private $availableProviders;
-    private $enabledProviders = [];
+    private $enabledProviders;
 
     public $env_key_id = "%s_ID";
     public $env_key_secret = "%s_SECRET";
@@ -18,7 +18,7 @@ class AuthProviderManager
     public function __construct()
     {
         $this->scanAvailableProviders();   
-        $this->enabledProviders = Settings::get('providers');
+        $this->enabledProviders = Settings::get('providers', []);
     }
 
     public function scanAvailableProviders()
