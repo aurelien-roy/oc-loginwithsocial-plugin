@@ -25,7 +25,8 @@
         "php": ">=7.0.1",
         "composer/installers": "~1.0",
         "rainlab/user-plugin": "dev-master",
-        "tlokuus/oc-disablepassword-plugin": "dev-master"
+        "tlokuus/oc-disablepassword-plugin": "dev-master",
+        "hybridauth/hybridauth": "^3.0"
     },
     "extra": {
         "installer-name": "loginwithsocial"
