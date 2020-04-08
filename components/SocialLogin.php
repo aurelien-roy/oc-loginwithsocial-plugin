@@ -354,7 +354,7 @@ class SocialLogin extends ComponentBase
 
     private function getUsableProvider($user)
     {
-        if (!$user->password_unset) {
+        if (!$user->tlokuus_disablepassword_is_disabled) {
             return 'e-mail';
         }
 

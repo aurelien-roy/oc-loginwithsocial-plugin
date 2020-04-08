@@ -69,7 +69,7 @@ class SocialAuthManager {
         $activated = $email_verified || $automaticActivation;
 
         if (!array_key_exists('password', $data)) {
-            $data['password_unset'] = true;
+            $data['tlokuus_disablepassword_is_disabled'] = true;
         }
 
         $user = null;
