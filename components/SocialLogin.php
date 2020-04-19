@@ -12,7 +12,6 @@ use URL;
 
 use Carbon\Carbon;
 use Cms\Classes\Page;
-use Cms\Classes\ComponentBase;
 use RainLab\User\Components\Account as AccountComponent;
 use RainLab\User\Models\User as UserModel;
 use ReflectionClass;
@@ -22,7 +21,7 @@ use Tlokuus\LoginWithSocial\Classes\ProviderButtonLibrary;
 use Tlokuus\LoginWithSocial\Classes\SocialAuthManager;
 use Tlokuus\LoginWithSocial\Models\Settings as SocialSettings;
 
-class SocialLogin extends ComponentBase
+class SocialLogin extends AccountComponent
 {
 
     const SESSION_PREFIX = 'tlokuus_loginwithsocial::';
@@ -262,7 +261,9 @@ class SocialLogin extends ComponentBase
 
         // Try to register without asking additional data to the user
         if ($registration_automatic) {
-            if(SocialAuthManager::instance()->attemptRegisterUser($data, $social_profile, $provider_name)) {
+            $activationCallback = function($user) { $this->sendActivationEmail($user); };
+            $throttleCallback = function() { $this->isRegisterThrottled(); };
+            if(SocialAuthManager::instance()->attemptRegisterUser($data, $social_profile, $provider_name, $activationCallback, $throttleCallback)) {
                 return $this->redirectSuccess();
             }
         }

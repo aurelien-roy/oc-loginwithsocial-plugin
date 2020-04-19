@@ -27,13 +27,15 @@ class SocialAuthManager {
         Auth::login($user);
     }
 
-    public function attemptRegisterUser($data, $social_profile, $provider_name) {
+    public function attemptRegisterUser($data, $social_profile, $provider_name, $send_activation_mail_callback = null, $throttle_check_callback = null) {
         try {
             SocialAuthManager::instance()->registerUser(
                 $data,
                 $data['email'] == $social_profile->emailVerified,
                 $provider_name,
-                $social_profile
+                $social_profile,
+                $send_activation_mail_callback,
+                $throttle_check_callback
             );
 
             return true;
@@ -42,15 +44,14 @@ class SocialAuthManager {
         }
     }
 
-    public function registerUser($data, $email_verified = false, $linked_provider = null, $linked_profile = null)
+    public function registerUser($data, $email_verified = false, $linked_provider = null, $linked_profile = null, $send_activation_mail_callback = null, $throttle_check_callback = null)
     {
-        $account_comp = new FakeAccountComponent();
 
-        if (!$account_comp->canRegister()) {
+        if (!UserSettings::get('allow_registration', true)) {
             throw new ApplicationException(Lang::get('rainlab.user::lang.account.registration_disabled'));
         }
 
-        if ($account_comp->public_isRegisterThrottled()) {
+        if ($throttle_check_callback()) {
             throw new ApplicationException(Lang::get('rainlab.user::lang.account.registration_throttled'));
         }
 
@@ -89,9 +90,8 @@ class SocialAuthManager {
         Event::fire('rainlab.user.register', [$user, $data]);
 
         // Activation by the user: send an e-mail
-        if (!$activated && $userActivation) {
-            $account_comp->public_sendActivationEmail($user);
-    
+        if (!$activated && $userActivation && $send_activation_mail_callback) {
+            $send_activation_mail_callback($user);
             Flash::success(Lang::get(/*An activation email has been sent to your email address.*/'rainlab.user::lang.account.activation_email_sent'));
         }
 

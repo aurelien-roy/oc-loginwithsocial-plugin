@@ -9,12 +9,12 @@ use Session;
 
 use Carbon\Carbon;
 use Cms\Classes\Page;
-use Cms\Classes\ComponentBase;
 
 use RainLab\User\Models\Settings as UserSettings;
+use RainLab\User\Components\Account as AccountComponent;
 use Tlokuus\LoginWithSocial\Classes\SocialAuthManager;
 
-class ContinueRegistrationForm extends ComponentBase
+class ContinueRegistrationForm extends AccountComponent
 {
 
     const SESSION_PREFIX = 'tlokuus_loginwithsocial::';
@@ -29,21 +29,14 @@ class ContinueRegistrationForm extends ComponentBase
 
     public function defineProperties()
     {
-        return [
-            'redirect' => [
-                'title'       => /*Redirect to*/'rainlab.user::lang.account.redirect_to',
-                'description' => /*Page name to redirect to after update, sign in or registration.*/'rainlab.user::lang.account.redirect_to_desc',
-                'type'        => 'dropdown',
-                'default'     => ''
-            ],
-
+        return array_merge([
             'loginPage' => [
                 'title'       => 'Login page',
                 'description' => 'Login page to redirect when an error occured.',
                 'type'        => 'dropdown',
                 'default'     => ''
             ]
-        ];
+            ], parent::defineProperties());
     }
 
     public function onRun()
@@ -92,7 +85,9 @@ class ContinueRegistrationForm extends ComponentBase
             $formdata,
             !$emailChanged && $partialReg['verified'],
             $partialReg['provider'],
-            $partialReg['profile']
+            $partialReg['profile'],
+            function($user) { $this->sendActivationEmail($user); },
+            function() { $this->isRegisterThrottled(); },
         );
 
         $this->forgetPartialRegistrationData();
