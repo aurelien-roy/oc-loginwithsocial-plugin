@@ -55,4 +55,9 @@ class LinkedSocialAccount extends Model
             $user->linked_social_accounts()->where('provider', $provider)->count()
         );
     }
+
+    public static function getLinkedAccount($user, $provider)
+    {
+        return $user->linked_social_accounts()->where('provider', $provider)->first();
+    }
 }
