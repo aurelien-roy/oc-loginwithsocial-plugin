@@ -46,7 +46,11 @@ class LinkedSocialAccount extends Model
 
     public static function unlink($user, $provider)
     {
-        $user->linked_social_accounts()->where('provider', $provider)->delete();
+        $account = $user->linked_social_accounts()->where('provider', $provider)->first();
+        
+        if($account) {
+            $account->delete();
+        }
     }
 
     public static function hasLinkedAccount($user, $provider)
