@@ -1,9 +1,13 @@
 <?php
 namespace Tlokuus\LoginWithSocial;
 
+use Event;
+use Session; 
+
 use System\Classes\PluginBase;
 use Rainlab\User\Models\User;
 use System\Classes\SettingsManager;
+use Tlokuus\LoginWithSocial\Components\SocialLogin;
 
 class Plugin extends PluginBase
 {
@@ -33,6 +37,15 @@ class Plugin extends PluginBase
         User::extend(function($model) {
             $model->hasMany['linked_social_accounts'] = ['\Tlokuus\LoginWithSocial\Models\LinkedSocialAccount'];
         });
+
+        Event::listen('cms.page.beforeRenderPage', function ($controller, $page) {
+            $ga_reset_referrer = SocialLogin::session_key('ga_reset_referrer');
+            if (Session::has($ga_reset_referrer)) {
+                Session::remove($ga_reset_referrer);
+                $page['ga_reset_referrer'] = true;
+            }
+        });
+        
     }
 
     public function registerSettings()

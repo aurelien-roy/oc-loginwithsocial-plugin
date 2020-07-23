@@ -94,6 +94,8 @@ class SocialLogin extends AccountComponent
     }
 
     public function loginWith($provider_name, $is_callback = false) {
+        Session::put(self::session_key('ga_reset_referrer'), 1);
+
         if(Auth::getUser() && !Auth::getUser()->is_guest) {
             Flash::success(Lang::get('tlokuus.loginwithsocial::frontend.already_logged_in', ['provider' => ucfirst($provider_name)]));
             return $this->redirectFailure();
